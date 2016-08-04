@@ -5,7 +5,9 @@
     <li>
       <article>
         <header>
-          <h2><%= notebook.name %></h2>
+          <span>
+            <h2><%= link_to n.name, n, title: n.description %></h2>
+          </span>
         </header>
       </article>
     </li>

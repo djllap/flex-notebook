@@ -1,0 +1,22 @@
+<%= form_for([@notebook, @page]) do |f| %>
+  <fieldset>
+    <ul>
+      <li class="required">
+        <%= f.label :name %>
+        <%= f.text_field :name, autofocus: true %>
+      </li>
+      <li>
+        <%= f.label :content %>
+        <%= f.text_area :content %>
+      </li>
+      <li>
+        <%= f.label "To which lists does this page belong?" %>
+        <%= f.collection_check_boxes :list_ids, @notebook.lists.all, :id, :name %>
+      </li>
+    </ul>
+    <p>
+      <%= f.submit %>
+      <%= link_to "Back to #{@notebook.name}", @notebook, class: "button" %>
+    </p>
+  </fieldset>
+<% end %>

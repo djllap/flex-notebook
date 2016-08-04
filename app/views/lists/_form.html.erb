@@ -1,0 +1,18 @@
+<%= form_for([@notebook, @list]) do |f| %>
+  <fieldset>
+    <ul>
+      <li class="required">
+        <%= f.label :name %>
+        <%= f.text_field :name, autofocus: true %>
+      </li>
+      <li class="checkboxes">
+        <%= f.label "What Pages do you want to include?" %>
+        <%= f.collection_check_boxes :page_ids, @notebook.pages.all, :id, :name %>
+      </li>
+    </ul>
+    <p>
+      <%= f.submit %>
+      <%= link_to "Back to #{@notebook.name}", @notebook, class: "button" %>
+    </p>
+  </fieldset>
+<% end %>

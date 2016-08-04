@@ -1,0 +1,11 @@
+<h1>Pages for <%= @notebook.name %></h1>
+
+<ul>
+  <% @pages.each do |page| %>
+    <li>
+      <p>
+        <%= link_to page.name, notebook_page_path(@notebook, page) %>
+      </p>
+    </li>
+  <% end %>
+</ul>
