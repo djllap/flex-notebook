@@ -1,0 +1,13 @@
+<h1><%= pluralize(@notebooks.count, "notebook") %></h1>
+
+<ul>
+  <% @notebooks.each do |n| %>
+    <li>
+      <article>
+        <header>
+          <h2><%= notebook.name %></h2>
+        </header>
+      </article>
+    </li>
+  <% end %>
+</ul>
