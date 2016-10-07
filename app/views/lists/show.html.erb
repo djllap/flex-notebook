@@ -14,6 +14,6 @@
   <%= link_to "Back to #{@notebook.name}", @notebook, class: "button" %>
   <%= link_to "Edit #{@list.name}", edit_notebook_list_path(@notebook, @list), class: "button" %>
   <%= link_to "Delete #{@list.name}", notebook_list_path(@notebook, @list), method: :delete, 
-               data: { confirm: "Are you sure you want to delete #{@list.name}?" }, class: "button" %>
+              data: { confirm: "Are you sure you want to delete #{@list.name}?" }, class: "button" %>
     
 </p>

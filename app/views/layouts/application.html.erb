@@ -11,14 +11,18 @@
   
 
   <body>
-    <%= render "layouts/header" %>
+    <div>
+      <%= render "layouts/header" %>
+    </div>
 
-    <div id="wrapper">
-      <div id="container">
-        <%= yield %>
-      </div>
+    <div class="container">
+      <%= yield %>        
     </div>
   </body>
 
-  <%= render "layouts/footer" %>
+  <div class="container-fullwidth navbar navbar-default navbar-fixed-bottom">
+    <div class="text-center nav-justified">
+      <%= render "layouts/footer" %>
+    </div>
+  </div>
 </html>
