@@ -43,6 +43,9 @@ before_action :set_notebook
     @page.save
     redirect_to notebook_page_path(@notebook, @page)
   end
+
+  def test
+  end
 end
 
 

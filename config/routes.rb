@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   get '/users/:id' => "users#show", as: :user
+  get "/test" => 'application#test', as: :test
 
 
 end
