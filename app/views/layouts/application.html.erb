@@ -15,7 +15,15 @@
   <div id="wrapper">
     <body>
       <%= render "layouts/header" %>
-      <%= yield %>       
+
+      <aside class='col-md-4'>
+        <%= render "layouts/sidebar"%>
+      </aside>
+      
+      <div class='col-md-8'>
+        <%= yield %>
+      </div>      
+
       <%= render "layouts/footer" %>
     </body>
   </div>
