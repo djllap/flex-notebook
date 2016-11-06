@@ -1,14 +1,3 @@
-<h1><%= pluralize(@notebooks.count, "notebook") %></h1>
+<h2 class="col-md-12 text-center"><%= @user.email %></h2>
 
-<ul class= "list-unstyled">
-  <% @notebooks.each do |n| %>
-    <li>
-        <%= link_to n.name, n, title: n.description %>
-    </li>
-  <% end %>
-</ul>
-
-
-
-
-
+<%= react_component 'Navbar', { data: @notebooks } %>

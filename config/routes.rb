@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
   root "notebooks#index"
-  
-  resources :notebooks do
-    resources :lists do
-    end
-    resources :pages do
+  devise_for :users, :paths => 'users'
+
+  resources :users do
+    resources :notebooks do
+      resources :lists do
+      end
+      resources :pages do
+      end
     end
   end
 
-  devise_for :users
 
-  get '/users/:id' => "users#show", as: :user
+
+ 
   get "/test" => 'application#test', as: :test
 
 
