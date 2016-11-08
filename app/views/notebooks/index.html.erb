@@ -1,3 +1,2 @@
-<h2 class="col-md-12 text-center"><%= @user.email %></h2>
 
-<%= react_component 'Navbar', { data: @notebooks } %>
+<%= react_component 'App', props = { notebooks: @notebooks } %>

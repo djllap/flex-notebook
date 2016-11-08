@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20160803181926) do
     t.integer  "notebook_id"
   end
 
+  create_table "pages_lists", force: :cascade do |t|
+    t.integer  "page_id"
+    t.integer  "list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_pages_lists_on_list_id"
+    t.index ["page_id"], name: "index_pages_lists_on_page_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
