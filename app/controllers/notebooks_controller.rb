@@ -3,6 +3,7 @@ class NotebooksController < ApplicationController
   def index
     @user = current_user
     @notebooks = Notebook.all
+    @nav = {notebook: nil, list: nil, page: nil}
   end
 
   def show

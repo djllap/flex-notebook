@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require material
+//= require material.min.js
+//= require ripples
+//= require ripples.min.js
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require react
