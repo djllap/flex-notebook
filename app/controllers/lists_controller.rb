@@ -2,6 +2,10 @@ class ListsController < ApplicationController
 
   before_action :set_notebook
 
+  def index
+    @lists = Notebook.find(params[:notebook_id]).lists.all
+  end
+
   def show
     @list = @notebook.lists.find(params[:id])
     @pages = @list.pages.all

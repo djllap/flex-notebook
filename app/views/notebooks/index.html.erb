@@ -1,2 +1,7 @@
 
-<%= react_component 'App', props = { notebooks: @notebooks, nav: @nav } %>
+<%= react_component 'App', props = { 
+    notebooks: @notebooks, 
+    nav: @nav, 
+    user: current_user,
+    lists: []
+} %>

@@ -23,13 +23,15 @@ var NotebookNav = React.createClass({
               <div className="btn-group-vertical" style={{"width": "100%"}}>
                 {notebooks.map( function (notebook) {
                   return(
-                    <li key={notebook.id}>
-                      <a href="" className="btn btn-block btn-raised btn-lg">
-                          {notebook.name}
-                      </a>
+                    <li 
+                      key={notebook.id} 
+                      className="btn btn-block btn-raised btn-lg"
+                      onClick={() => this.props.selectNotebook(notebook)}
+                    >
+                      {notebook.name}
                     </li>
                   );
-                })}
+                }, this )}
               </div>
             </ul>
           </div>
