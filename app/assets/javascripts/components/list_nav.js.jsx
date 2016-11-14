@@ -29,7 +29,7 @@ var ListNav = React.createClass({
                     <li 
                       key={list.id} 
                       className="btn btn-block btn-raised btn-lg"
-                      onClick={() => this.props.selectlist(list.id)}
+                      onClick={() => this.props.ajaxPagesState(this.props.notebook, list, this.props.selectPage)}
                     >
                       {list.name}
                     </li>

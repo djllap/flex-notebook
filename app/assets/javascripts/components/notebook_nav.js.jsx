@@ -26,7 +26,7 @@ var NotebookNav = React.createClass({
                     <li 
                       key={notebook.id} 
                       className="btn btn-block btn-raised btn-lg"
-                      onClick={() => this.props.ajaxListState(notebook, this.props.selectNotebook)}
+                      onClick={() => this.props.ajaxListsState(notebook, this.props.selectNotebook)}
                     >
                       {notebook.name}
                     </li>

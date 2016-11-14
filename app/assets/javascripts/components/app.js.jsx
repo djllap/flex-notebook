@@ -4,16 +4,26 @@ var App = React.createClass({
     return {
       notebooks: this.props.notebooks,
       nav: this.props.nav,
-      lists: null
+      lists: null,
+      pages: null
     };
   },
 
-  ajaxListState: function(notebook, selectNotebook) {
+  ajaxListsState: function(notebook, selectNotebook) {
     $.ajax({
       url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id + '/lists',
       success: (lists) => {
-        console.log(lists);
         this.selectNotebook(lists, notebook);
+      }
+    })
+  },
+
+  ajaxPagesState: function(notebook, list, selectPage) {
+    $.ajax({
+      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id + '/lists/' + list.id,
+      success: (pages) => {
+        console.log(pages);
+        this.selectList(pages, list);
       }
     })
   },
@@ -21,14 +31,16 @@ var App = React.createClass({
   selectNotebook: function(lists, notebook) {
     nav = {...this.state.nav};
     nav.notebook = notebook;
-
     this.setState({lists: lists});
     this.setState({nav: nav});
   },
 
-  selectList: function(id) {
+  selectList: function(pages, list) {
     nav = {...this.state.nav};
-    nav.list = null;
+    nav.list = list;
+    console.log(pages);
+    this.setState({pages: pages});
+    this.setState({nav: nav});
   },
 
   render: function() {
@@ -38,17 +50,20 @@ var App = React.createClass({
       navBar = <NotebookNav 
         notebooks={this.props.notebooks}
         selectNotebook={this.selectNotebook}
-        ajaxListState={this.ajaxListState}
+        ajaxListsState={this.ajaxListsState}
       />;
     } else if (this.state.nav.notebook && !this.state.nav.list) {
       navBar = <ListNav
         notebook={this.state.nav.notebook}
         lists={this.state.lists.lists}
-        selectList={this.selectList}
+        ajaxPagesState={this.ajaxPagesState}
       />
     } else if (this.state.nav.notebook && this.state.nav.list) {
       navBar = <PageNav
-        
+        notebook={this.state.nav.notebook}
+        list={this.state.nav.list}
+        pages={this.state.pages.pages}
+        selectPage={this.selectPage}
       />
     }
 

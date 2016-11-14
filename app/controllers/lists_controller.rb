@@ -16,6 +16,12 @@ class ListsController < ApplicationController
   def show
     @list = @notebook.lists.find(params[:id])
     @pages = @list.pages.all
+
+    if request.xhr?
+      render :json => {
+        :pages => @pages
+      }
+    end
   end
 
   def new
