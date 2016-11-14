@@ -1,9 +1,16 @@
 class ListsController < ApplicationController
 
   before_action :set_notebook
+  respond_to :html, :js, :xml
 
   def index
-    @lists = Notebook.find(params[:notebook_id]).lists.all
+    @lists = @notebook.lists.all
+
+    if request.xhr?
+      render :json => {
+        :lists => @lists
+      }
+    end
   end
 
   def show

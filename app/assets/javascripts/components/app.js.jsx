@@ -4,29 +4,30 @@ var App = React.createClass({
     return {
       notebooks: this.props.notebooks,
       nav: this.props.nav,
-      lists: this.props.lists
+      lists: null
     };
   },
 
-  selectNotebook: function(notebook) {
-    const nav = {...this.state.nav};
-    nav.notebook = notebook;
-
+  ajaxListState: function(notebook, selectNotebook) {
     $.ajax({
-      url: '/users/' + this.props.user.id + '/notebooks/' + nav.notebook.id + '/lists',
-      success: (data) => {
-        console.log(data);
-        let lists = {...this.state.lists};
-        lists = data;
-        this.setState({lists})
+      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id + '/lists',
+      success: (lists) => {
+        console.log(lists);
+        this.selectNotebook(lists, notebook);
       }
     })
+  },
 
-    this.setState({nav})
+  selectNotebook: function(lists, notebook) {
+    nav = {...this.state.nav};
+    nav.notebook = notebook;
+
+    this.setState({lists: lists});
+    this.setState({nav: nav});
   },
 
   selectList: function(id) {
-    const nav = {...this.state.nav};
+    nav = {...this.state.nav};
     nav.list = null;
   },
 
@@ -37,12 +38,17 @@ var App = React.createClass({
       navBar = <NotebookNav 
         notebooks={this.props.notebooks}
         selectNotebook={this.selectNotebook}
+        ajaxListState={this.ajaxListState}
       />;
     } else if (this.state.nav.notebook && !this.state.nav.list) {
       navBar = <ListNav
         notebook={this.state.nav.notebook}
-        lists={this.state.lists}
+        lists={this.state.lists.lists}
         selectList={this.selectList}
+      />
+    } else if (this.state.nav.notebook && this.state.nav.list) {
+      navBar = <PageNav
+        
       />
     }
 
