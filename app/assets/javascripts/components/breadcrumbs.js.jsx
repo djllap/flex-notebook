@@ -18,13 +18,15 @@ var Breadcrumbs = React.createClass({
       <li onClick={() => this.props.jumpToNotebooks()}
         className={(current == "crumbs1") ? "active" : ""}
       >
-        {(current == "crumbs1") ? "All Notebooks" : <a href="">All Notebooks</a>}
+        {(current == "crumbs1") ? "All Notebooks" : <a style={{cursor: "pointer"}}>All Notebooks</a>}
       </li>;
 
     if (this.props.list) {
       crumbs3 = 
-        <li className={(current == "crumbs3") ? "active" : ""}>
-          {(current == "crumbs3") ? this.props.list.name : <a href="">{this.props.list.name}</a>}
+        <li 
+          className={(current == "crumbs3") ? "active" : ""}
+        >
+          {(current == "crumbs3") ? this.props.list.name : <a style={{cursor: "pointer"}}>{this.props.list.name}</a>}
         </li>
     }
 
@@ -33,7 +35,7 @@ var Breadcrumbs = React.createClass({
         <li onClick={() => this.props.jumpToNotebook(this.props.notebook)}
           className={(current == "crumbs2") ? "active" : ""}
         >
-          {(current == "crumbs2") ? this.props.notebook.name : <a href="">{this.props.notebook.name}</a>}
+          {(current == "crumbs2") ? this.props.notebook.name : <a style={{cursor: "pointer"}}>{this.props.notebook.name}</a>}
         </li>;
     }
 
