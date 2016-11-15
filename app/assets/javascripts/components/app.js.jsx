@@ -27,15 +27,6 @@ var App = React.createClass({
     })
   },
 
-  // ajaxViewPage: function() {
-  //   $.ajax({
-  //     url: '/users/' + this.props.user_id + '/notebooks/' + notebook.id + '/pages/' + page.id,
-  //     success: (pages) => {
-  //       this.selectPage();
-  //     }
-  //   })
-  // },
-
   selectNotebook: function(lists, notebook) {
     nav = {...this.state.nav};
     nav.notebook = notebook;
@@ -55,6 +46,27 @@ var App = React.createClass({
   this.setState({nav: nav});
  },
 
+ jumpToNotebooks: function() {
+    nav = {...this.state.nav};
+    nav.notebook = null;
+    nav.list = null;
+    this.setState({nav: nav});
+  },
+
+  jumpToNotebook: function(notebook) {
+    nav = {...this.state.nav};
+    nav.notebook = notebook;
+    nav.list = null;
+    this.setState({nav: nav});
+  },
+
+  jumpToList: function(notebook, list) {
+    nav = {...this.state.nav};
+    nav.notebook = notebook;
+    nav.list = list;
+    this.setState({nav: nav});
+  },
+
   render: function() {
 
     let navBar = null;
@@ -69,6 +81,8 @@ var App = React.createClass({
         notebook={this.state.nav.notebook}
         lists={this.state.lists.lists}
         ajaxPagesState={this.ajaxPagesState}
+        jumpToNotebooks={this.jumpToNotebooks}
+        jumpToNotebook={this.jumpToNotebook}
       />
     } else if (this.state.nav.notebook && this.state.nav.list) {
       navBar = <PageNav
@@ -76,6 +90,9 @@ var App = React.createClass({
         list={this.state.nav.list}
         pages={this.state.pages.pages}
         selectPage={this.selectPage}
+        jumpToNotebooks={this.jumpToNotebooks}
+        jumpToNotebook={this.jumpToNotebook}
+        jumpToList={this.jumpToList}
       />
     }
 

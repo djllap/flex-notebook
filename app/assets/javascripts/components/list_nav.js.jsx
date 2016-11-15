@@ -11,16 +11,12 @@ var ListNav = React.createClass({
           </div>
 
           <div className="panel-body">
-            <ul className="breadcrumb" 
-              style={{"backgroundColor": "#fff", "marginBottom": "0"}}
-            >
-              <li>
-                notebooks
-              </li>
-              <li className="active">
-                {this.props.notebook.name}
-              </li>
-            </ul>
+            <Breadcrumbs
+              jumpToNotebooks={this.props.jumpToNotebooks}
+              jumpToNotebook={this.props.jumpToNotebook}
+              notebook={this.props.notebook}
+              list={this.props.list}
+            />
 
             <ul className="nav nav-pills nav-stacked">
               <div className="btn-group-vertical" style={{"width": "100%"}}>
