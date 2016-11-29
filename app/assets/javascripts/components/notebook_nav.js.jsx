@@ -4,7 +4,7 @@ var NotebookNav = React.createClass({
     notebooks = this.props.notebooks;
 
     return (
-      <div className="col-md-4">
+      <div className="col-sm-4">
         <div className="panel panel-info">
           <div className="panel-heading">
             <h4 className="panel-title">Your Notebooks</h4>
@@ -16,16 +16,35 @@ var NotebookNav = React.createClass({
               list={this.props.list}
             />
 
+            <a className="btn btn-xs btn-raised"
+              style={{float: "right"}}
+              onClick={() => this.props.toggleModal()}
+            >
+              New Notebook
+            </a>
+
             <ul className="nav nav-pills nav-stacked">
               <div className="btn-group-vertical" style={{"width": "100%"}}>
                 {notebooks.map( function (notebook) {
                   return(
-                    <li 
-                      key={notebook.id} 
-                      className="btn btn-block btn-raised btn-lg"
+                    <li key={notebook.id}
+                      className="btn btn-block btn-lg"
                       onClick={() => this.props.ajaxListsState(notebook, this.props.selectNotebook)}
+                      style={{paddingRight: "12px"}}
                     >
                       {notebook.name}
+                    <span style={{color: "grey", float: "right"}}>
+                      <i className="material-icons" style={{fontSize: "1em", paddingRight: "12px"}}>create</i>
+                      <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
+                        <i 
+                          className="material-icons" 
+                          style={{fontSize: "1em"}}
+                          onClick={() => this.props.deleteNotebook(notebook)}
+                        >
+                          delete
+                        </i>
+                      </span>
+                    </span>
                     </li>
                   );
                 }, this )}

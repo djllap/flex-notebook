@@ -4,7 +4,8 @@ var ListNav = React.createClass({
     lists = this.props.lists;
 
     return (
-      <div className="col-md-4">
+      <div className="col-sm-4">
+        
         <div className="panel panel-info">
           <div className="panel-heading">
             <h4 className="panel-title">Your Notebooks</h4>
@@ -36,6 +37,7 @@ var ListNav = React.createClass({
           </div>
         </div>
       </div>
+      
     )
   }
 });

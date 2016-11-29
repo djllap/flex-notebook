@@ -1,28 +1,36 @@
 var Technique = React.createClass({
 
   render: function() {
-    technique = null;
+    form = this.props.form;
+    content = null;
 
-    if (this.props.page) {
-      page = this.props.page;
+    if (!form) {
+      if (this.props.page) {
+        page = this.props.page;
 
-      technique =  <div>
-          <h4>{page.name}</h4>
-          <p>{page.content}</p>
-        </div>
+        content =  
+          <div>
+            <h4>{page.name}</h4>
+            <p>{page.content}</p>
+          </div>
+      } else {
+        content = 
+          <p>You have not selected a technique.</p>
+      }
     } else {
-      technique = 
-        <p>You have not selected a technique.</p>
+      content = <NotebookForm
+                  exitForm={this.props.exitForm}
+                />
     }
 
     return (
-      <div className="col-md-8">
+      <div className="col-sm-8">
         <div className="panel panel-success">
           <div className="panel-heading">
             <h3 className="panel-title">Technique</h3>
           </div>
           <div className="panel-body">
-            {technique}
+            {content}
           </div>
         </div>
       </div>

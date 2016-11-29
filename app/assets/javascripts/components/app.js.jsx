@@ -5,8 +5,14 @@ var App = React.createClass({
       notebooks: this.props.notebooks,
       nav: this.props.nav,
       lists: null,
-      pages: null
+      pages: null,
+      form: null,
+      isModalOpen: false
     };
+  },
+
+  toggleModal: function() {
+    this.setState({isModalOpen: !this.state.isModalOpen})
   },
 
   ajaxListsState: function(notebook, selectNotebook) {
@@ -25,6 +31,10 @@ var App = React.createClass({
         this.selectList(pages, list);
       }
     })
+  },
+
+  setNotebooks: function(notebooks) {
+    this.setState({notebooks: notebooks})
   },
 
   selectNotebook: function(lists, notebook) {
@@ -67,6 +77,35 @@ var App = React.createClass({
     this.setState({nav: nav});
   },
 
+  createNotebook: function() {
+    $.ajax({
+      type: "POST",
+      url: '/users/' + this.props.user.id + '/notebooks',
+      success: (notebook) => {
+        console.log('notebook created')
+      }
+    })
+  },
+
+  deleteNotebook: function(notebook) {
+    $.ajax({
+      type: "DELETE",
+      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id,
+      success: (notebooks) => {
+        this.setNotebooks(notebooks);
+      }
+    })
+  },
+
+  exitForm: function() {
+    this.setState({form: null})
+  },
+
+  showNewNotebookForm: function() {
+    form = "notebook";
+    this.setState({form: form})
+  },
+
   render: function() {
 
     let navBar = null;
@@ -75,6 +114,9 @@ var App = React.createClass({
         notebooks={this.props.notebooks}
         selectNotebook={this.selectNotebook}
         ajaxListsState={this.ajaxListsState}
+        deleteNotebook={this.deleteNotebook}
+        showNewNotebookForm={this.showNewNotebookForm}
+        toggleModal={this.toggleModal}
       />;
     } else if (this.state.nav.notebook && !this.state.nav.list) {
       navBar = <ListNav
@@ -101,7 +143,16 @@ var App = React.createClass({
         {navBar}
         <Technique
           page={this.state.nav.page}
+          form={this.state.form}
+          exitForm={this.exitForm}
         />
+        <Modal
+          isOpen={this.state.isModalOpen}
+          transitionName="modal-anim"
+          children="Test"
+        >
+          Modal Content
+        </Modal>
       </div>
     );
   }
