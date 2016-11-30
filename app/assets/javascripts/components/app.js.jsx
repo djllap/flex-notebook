@@ -77,15 +77,7 @@ var App = React.createClass({
     this.setState({nav: nav});
   },
 
-  createNotebook: function() {
-    $.ajax({
-      type: "POST",
-      url: '/users/' + this.props.user.id + '/notebooks',
-      success: (notebook) => {
-        console.log('notebook created')
-      }
-    })
-  },
+
 
   deleteNotebook: function(notebook) {
     $.ajax({
@@ -148,10 +140,9 @@ var App = React.createClass({
         />
         <Modal
           isOpen={this.state.isModalOpen}
-          transitionName="modal-anim"
-          children="Test"
+          toggleModal={this.toggleModal}
+          user={this.props.user}
         >
-          Modal Content
         </Modal>
       </div>
     );

@@ -13,6 +13,7 @@ class NotebooksController < ApplicationController
 
   def create
     @notebook = Notebook.new(notebook_params)
+    @notebook.save
 
     if request.xhr?
       render :json => {
@@ -42,6 +43,6 @@ private
     @user = current_user
   end
 
-  def list_params
+  def notebook_params
     params.require(:notebook).permit(:name)
   end
