@@ -2,13 +2,18 @@ var NotebookForm = React.createClass({
 
   createNotebook: function(e) {
     e.preventDefault();
-    var name = this.refs.name.value;
+    let name = this.refs.name.value;
+    selectNotebook = this.props.selectNotebook;
+    toggleModal = this.props.toggleModal;
+    ajaxListsState = this.props.ajaxListsState;
     $.ajax({
       type: "POST",
       url: '/users/' + this.props.user.id + '/notebooks',
-      data: {item: {name: name}}, 
+      data: {name: name}, 
       success: (notebook) => {
-        console.log('notebook created')
+        console.log(notebook);
+        ajaxListsState(notebook.notebook, selectNotebook);
+        toggleModal();
       }
     })
   },

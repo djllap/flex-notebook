@@ -19,6 +19,8 @@ var PageNav = React.createClass({
                 jumpToList={this.props.jumpToList}
                 notebook={this.props.notebook}
                 list={this.props.list}
+                ajaxNotebooksState={this.props.ajaxNotebooksState}
+                setNotebooks={this.props.setNotebooks}
               />
 
               <ul className="nav nav-pills nav-stacked">

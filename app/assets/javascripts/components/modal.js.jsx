@@ -14,6 +14,9 @@ var Modal = React.createClass({
             <NotebookForm 
               toggleModal={this.props.toggleModal} 
               user={this.props.user}
+              setNotebooks={this.props.setNotebooks}
+              selectNotebook={this.props.selectNotebook}
+              ajaxListsState={this.props.ajaxListsState}
             />
 
           </Modal.Body>

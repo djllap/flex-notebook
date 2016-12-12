@@ -15,7 +15,7 @@ var Breadcrumbs = React.createClass({
     crumbs3 = null;
 
     crumbs1 = 
-      <li onClick={() => this.props.jumpToNotebooks()}
+      <li onClick={() => this.props.ajaxNotebooksState(this.props.setNotebooks)}
         className={(current == "crumbs1") ? "active" : ""}
       >
         {(current == "crumbs1") ? "All Notebooks" : <a style={{cursor: "pointer"}}>All Notebooks</a>}

@@ -34,12 +34,17 @@ var NotebookNav = React.createClass({
                     >
                       {notebook.name}
                     <span style={{color: "grey", float: "right"}}>
-                      <i className="material-icons" style={{fontSize: "1em", paddingRight: "12px"}}>create</i>
+                      <i className="material-icons" 
+                        style={{fontSize: "1em", paddingRight: "12px"}}
+                        onClick={(e) => this.props.editNotebook(notebook, e)}
+                      >
+                        create
+                      </i>
                       <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
                         <i 
                           className="material-icons" 
                           style={{fontSize: "1em"}}
-                          onClick={() => this.props.deleteNotebook(notebook)}
+                          onClick={(e) => this.props.deleteNotebook(notebook, this.props.setNotebooks, e)}
                         >
                           delete
                         </i>

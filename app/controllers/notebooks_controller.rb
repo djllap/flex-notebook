@@ -4,6 +4,10 @@ class NotebooksController < ApplicationController
   def index
     @notebooks = Notebook.all
     @nav = {notebook: nil, list: nil, page: nil}
+
+    if request.xhr?
+      render :json => @notebooks
+    end
   end
 
   def show
@@ -12,7 +16,7 @@ class NotebooksController < ApplicationController
   end
 
   def create
-    @notebook = Notebook.new(notebook_params)
+    @notebook = @user.notebooks.new(notebook_params)
     @notebook.save
 
     if request.xhr?
@@ -27,12 +31,19 @@ class NotebooksController < ApplicationController
     @notebook.destroy
 
     if request.xhr?
-      render :json => {
-        :notebooks => Notebook.all
-      }
+      render :json => @user.notebooks.all
     end
+  end
 
+  def update
+    @notebook = Notebook.find(params[:id])
 
+    if @notebook.update(notebook_params)
+      if request.xhr?
+        render :json => @user.notebooks.all
+        render :json => @notebook
+      end
+    end
   end
 end
 
@@ -44,5 +55,5 @@ private
   end
 
   def notebook_params
-    params.require(:notebook).permit(:name)
+    params.permit(:name, :user_id)
   end

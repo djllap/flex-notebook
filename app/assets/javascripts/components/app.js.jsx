@@ -33,8 +33,18 @@ var App = React.createClass({
     })
   },
 
+  ajaxNotebooksState: function(setNotebooks) {
+    $.ajax({
+      url: '/users/' + this.props.user.id + '/notebooks',
+      success: (notebooks) => {
+        console.log(notebooks);
+        this.jumpToNotebooks(notebooks);
+      }
+    })
+  },
+
   setNotebooks: function(notebooks) {
-    this.setState({notebooks: notebooks})
+    this.setState({notebooks: notebooks});
   },
 
   selectNotebook: function(lists, notebook) {
@@ -56,11 +66,11 @@ var App = React.createClass({
   this.setState({nav: nav});
  },
 
- jumpToNotebooks: function() {
+ jumpToNotebooks: function(notebooks) {
     nav = {...this.state.nav};
     nav.notebook = null;
     nav.list = null;
-    this.setState({nav: nav});
+    this.setState({notebooks: notebooks, nav: nav});
   },
 
   jumpToNotebook: function(notebook) {
@@ -77,13 +87,28 @@ var App = React.createClass({
     this.setState({nav: nav});
   },
 
+  editNotebook: function(notebook, event) {
+    event.stopPropagation();
 
+    $.ajax({
+      type: "PUT",
+      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id,
+      success: (notebooks, notebook) => {
+        this.setNotebooks(notebooks);
+      }
+    })
+  },
 
-  deleteNotebook: function(notebook) {
+  deleteNotebook: function(notebook, event) {
+
+    event.stopPropagation();
+    // event.stopImmediatePropagation();
+
     $.ajax({
       type: "DELETE",
       url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id,
       success: (notebooks) => {
+        console.log(notebooks);
         this.setNotebooks(notebooks);
       }
     })
@@ -103,20 +128,24 @@ var App = React.createClass({
     let navBar = null;
     if (!this.state.nav.notebook) {
       navBar = <NotebookNav 
-        notebooks={this.props.notebooks}
+        notebooks={this.state.notebooks}
+        setNotebooks={this.setNotebooks}
         selectNotebook={this.selectNotebook}
         ajaxListsState={this.ajaxListsState}
         deleteNotebook={this.deleteNotebook}
         showNewNotebookForm={this.showNewNotebookForm}
         toggleModal={this.toggleModal}
+        editNotebook={this.editNotebook}
       />;
     } else if (this.state.nav.notebook && !this.state.nav.list) {
       navBar = <ListNav
         notebook={this.state.nav.notebook}
         lists={this.state.lists.lists}
         ajaxPagesState={this.ajaxPagesState}
+        ajaxNotebooksState={this.ajaxNotebooksState}
         jumpToNotebooks={this.jumpToNotebooks}
         jumpToNotebook={this.jumpToNotebook}
+        setNotebooks={this.setNotebooks}
       />
     } else if (this.state.nav.notebook && this.state.nav.list) {
       navBar = <PageNav
@@ -127,6 +156,8 @@ var App = React.createClass({
         jumpToNotebooks={this.jumpToNotebooks}
         jumpToNotebook={this.jumpToNotebook}
         jumpToList={this.jumpToList}
+        ajaxNotebooksState={this.ajaxNotebooksState}
+        setNotebooks={this.setNotebooks}
       />
     }
 
@@ -142,6 +173,9 @@ var App = React.createClass({
           isOpen={this.state.isModalOpen}
           toggleModal={this.toggleModal}
           user={this.props.user}
+          setNotebooks={this.setNotebooks}
+          selectNotebook={this.selectNotebook}
+          ajaxListsState={this.ajaxListsState}
         >
         </Modal>
       </div>
