@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The live FlexNotebook site is currently down while I refactor the existing features into React.
 
-Things you may want to cover:
+FlexNotebook is built on:
 
-* Ruby version
+* Ruby 3.2.1
 
-* System dependencies
+* Rails 5.0.0
 
-* Configuration
+* React 15.0
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* MySQL
