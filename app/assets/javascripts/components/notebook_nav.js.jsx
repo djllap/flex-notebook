@@ -18,7 +18,7 @@ var NotebookNav = React.createClass({
 
             <a className="btn btn-xs btn-raised"
               style={{float: "right"}}
-              onClick={() => this.props.toggleModal()}
+              onClick={() => this.props.toggleModal("Create Notebook")}
             >
               New Notebook
             </a>
@@ -34,17 +34,19 @@ var NotebookNav = React.createClass({
                     >
                       {notebook.name}
                     <span style={{color: "grey", float: "right"}}>
-                      <i className="material-icons" 
-                        style={{fontSize: "1em", paddingRight: "12px"}}
-                        onClick={(e) => this.props.editNotebook(notebook, e)}
-                      >
-                        create
-                      </i>
+                      <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
+                        <i className="material-icons" 
+                          style={{fontSize: "1em", marginRight: "0.15em"}}
+                          onClick={(e) => this.props.editNotebook(notebook, e)}
+                        >
+                          edit
+                        </i>
+                      </span>
                       <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
                         <i 
                           className="material-icons" 
                           style={{fontSize: "1em"}}
-                          onClick={(e) => this.props.deleteNotebook(notebook, this.props.setNotebooks, e)}
+                          onClick={(e) => this.props.deleteNotebook(notebook, e)}
                         >
                           delete
                         </i>

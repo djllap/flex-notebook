@@ -4,15 +4,18 @@ var App = React.createClass({
     return {
       notebooks: this.props.notebooks,
       nav: this.props.nav,
+      editing: null,
       lists: null,
       pages: null,
       form: null,
-      isModalOpen: false
+      isModalOpen: false,
+      modalContent: ""
     };
   },
 
-  toggleModal: function() {
-    this.setState({isModalOpen: !this.state.isModalOpen})
+  toggleModal: function(modalContent = "") {
+    this.setState({isModalOpen: !this.state.isModalOpen});
+    this.setState({modalContent: modalContent});
   },
 
   ajaxListsState: function(notebook, selectNotebook) {
@@ -89,14 +92,8 @@ var App = React.createClass({
 
   editNotebook: function(notebook, event) {
     event.stopPropagation();
-
-    $.ajax({
-      type: "PUT",
-      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id,
-      success: (notebooks, notebook) => {
-        this.setNotebooks(notebooks);
-      }
-    })
+    this.setState({editing: notebook})
+    this.toggleModal("Edit Notebook");
   },
 
   deleteNotebook: function(notebook, event) {
@@ -172,10 +169,13 @@ var App = React.createClass({
         <Modal
           isOpen={this.state.isModalOpen}
           toggleModal={this.toggleModal}
+          modalContent={this.state.modalContent}
           user={this.props.user}
+          notebook={this.state.editing}
           setNotebooks={this.setNotebooks}
           selectNotebook={this.selectNotebook}
           ajaxListsState={this.ajaxListsState}
+          editing={this.state.editing}
         >
         </Modal>
       </div>

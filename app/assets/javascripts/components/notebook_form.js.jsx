@@ -1,33 +1,55 @@
 var NotebookForm = React.createClass({
 
-  createNotebook: function(e) {
+  submitNotebook: function(e) {
     e.preventDefault();
     let name = this.refs.name.value;
     selectNotebook = this.props.selectNotebook;
     toggleModal = this.props.toggleModal;
-    ajaxListsState = this.props.ajaxListsState;
-    $.ajax({
-      type: "POST",
-      url: '/users/' + this.props.user.id + '/notebooks',
-      data: {name: name}, 
-      success: (notebook) => {
-        console.log(notebook);
-        ajaxListsState(notebook.notebook, selectNotebook);
-        toggleModal();
-      }
-    })
+    setNotebooks = this.props.setNotebooks;
+
+    if (this.props.modalContent == "Create Notebook") {
+      $.ajax({
+        type: "POST",
+        url: '/users/' + this.props.user.id + '/notebooks',
+        data: {name: name}, 
+        success: (notebook) => {
+          ajaxListsState(notebook.notebook, selectNotebook);
+          toggleModal();
+        }
+      });
+    } else if (this.props.modalContent == "Edit Notebook") {
+      $.ajax({
+        type: "PATCH",
+        url: '/users/' + this.props.user.id + '/notebooks/' + this.props.notebook.id,
+        data: {name: name},
+        success: (notebooks) => {
+          setNotebooks(notebooks);
+          toggleModal();
+        }
+      });
+    }
+    
   },
 
   render: function() {
+
+    if (this.props.modalContent == "Create Notebook") {
+      submit = "Create Notebook";
+    } else if (this.props.modalContent == "Edit Notebook") {
+      name = this.props.notebook.name;
+      submit = "Update Notebook";
+    }
+    
+
     return (
-      <form className="form-horizontal" onSubmit={this.createNotebook}>
+      <form className="form-horizontal" onSubmit={this.submitNotebook}>
         <fieldset>
-          <legend>New Notebook</legend>
           <div className="form-group">
             <label className="col-sm-2 control-label">Name</label>
             <div className="col-sm-10">
               <input type="text" 
-                className="form-control" 
+                className="form-control"
+                defaultValue={name} 
                 placeholder="Notebook Name"
                 ref="name"
               />
@@ -42,7 +64,7 @@ var NotebookForm = React.createClass({
                   Cancel
                 </button>
                 <button className="btn btn-primary">
-                  Create Notebook
+                  {submit}
                 </button>
               </div>
             </div>

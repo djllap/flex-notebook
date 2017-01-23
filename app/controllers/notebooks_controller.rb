@@ -41,7 +41,6 @@ class NotebooksController < ApplicationController
     if @notebook.update(notebook_params)
       if request.xhr?
         render :json => @user.notebooks.all
-        render :json => @notebook
       end
     end
   end
