@@ -7,9 +7,7 @@ class ListsController < ApplicationController
     @lists = @notebook.lists.all
 
     if request.xhr?
-      render :json => {
-        :lists => @lists
-      }
+      render :json => @lists
     end
   end
 
@@ -18,9 +16,7 @@ class ListsController < ApplicationController
     @pages = @list.pages.all
 
     if request.xhr?
-      render :json => {
-        :pages => @pages
-      }
+      render :json => @pages
     end
   end
 
@@ -31,13 +27,19 @@ class ListsController < ApplicationController
   def create
     @list = @notebook.lists.new(list_params)
     @list.save
-    redirect_to @notebook
+    
+    if request.xhr?
+      render :json => @list
+    end
   end
 
   def destroy
     @list = @notebook.lists.find(params[:id])
     @list.destroy
-    redirect_to @notebook
+    
+    if request.xhr?
+      render :json => @notebook.lists
+    end
   end
 
   def edit
@@ -57,7 +59,7 @@ end
 private
 
   def list_params
-    params.require(:list).permit(:name, :page_ids => [])
+    params.permit(:name, :page_ids => [])
   end
 
   def set_notebook

@@ -29,29 +29,29 @@ var NotebookNav = React.createClass({
                   return(
                     <li key={notebook.id}
                       className="btn btn-block btn-lg"
-                      onClick={() => this.props.ajaxListsState(notebook, this.props.selectNotebook)}
+                      onClick={() => this.props.getNotebookLists(notebook)}
                       style={{paddingRight: "12px"}}
                     >
                       {notebook.name}
-                    <span style={{color: "grey", float: "right"}}>
-                      <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
-                        <i className="material-icons" 
-                          style={{fontSize: "1em", marginRight: "0.15em"}}
-                          onClick={(e) => this.props.editNotebook(notebook, e)}
-                        >
-                          edit
-                        </i>
+                      <span style={{color: "grey", float: "right"}}>
+                        <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
+                          <i className="material-icons" 
+                            style={{fontSize: "1em", marginRight: "0.15em"}}
+                            onClick={(e) => this.props.editNotebook(notebook, e)}
+                          >
+                            edit
+                          </i>
+                        </span>
+                        <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
+                          <i 
+                            className="material-icons" 
+                            style={{fontSize: "1em"}}
+                            onClick={(e) => this.props.deleteNotebook(notebook, e)}
+                          >
+                            delete
+                          </i>
+                        </span>
                       </span>
-                      <span className="btn btn-s" style={{padding: '0.15em', color: 'grey'}}>
-                        <i 
-                          className="material-icons" 
-                          style={{fontSize: "1em"}}
-                          onClick={(e) => this.props.deleteNotebook(notebook, e)}
-                        >
-                          delete
-                        </i>
-                      </span>
-                    </span>
                     </li>
                   );
                 }, this )}

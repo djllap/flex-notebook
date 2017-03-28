@@ -13,6 +13,11 @@ class NotebooksController < ApplicationController
   def show
     @notebook = Notebook.find(params[:id])
     @lists = @notebook.lists.all
+    @pages = @notebook.pages.all
+
+    if request.xhr?
+      render :json => {lists: @lists, pages: @pages}
+    end
   end
 
   def create
@@ -20,9 +25,7 @@ class NotebooksController < ApplicationController
     @notebook.save
 
     if request.xhr?
-      render :json => {
-        :notebook => @notebook
-      }
+      render :json => @notebook
     end
   end
 

@@ -17,7 +17,7 @@ var ListNav = React.createClass({
               jumpToNotebook={this.props.jumpToNotebook}
               notebook={this.props.notebook}
               list={this.props.list}
-              ajaxNotebooksState={this.props.ajaxNotebooksState}
+              getNotebooks={this.props.getNotebooks}
               setNotebooks={this.props.setNotebooks}
             />
 

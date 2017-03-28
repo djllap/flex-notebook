@@ -15,7 +15,7 @@ var Breadcrumbs = React.createClass({
     crumbs3 = null;
 
     crumbs1 = 
-      <li onClick={() => this.props.ajaxNotebooksState(this.props.setNotebooks)}
+      <li onClick={() => this.props.getNotebooks()}
         className={(current == "crumbs1") ? "active" : ""}
       >
         {(current == "crumbs1") ? "All Notebooks" : <a style={{cursor: "pointer"}}>All Notebooks</a>}
@@ -32,7 +32,7 @@ var Breadcrumbs = React.createClass({
 
     if (this.props.notebook) {
       crumbs2 = 
-        <li onClick={() => this.props.jumpToNotebook(this.props.notebook)}
+        <li onClick={() => this.props.getNotebookLists(this.props.notebook)}
           className={(current == "crumbs2") ? "active" : ""}
         >
           {(current == "crumbs2") ? this.props.notebook.name : <a style={{cursor: "pointer"}}>{this.props.notebook.name}</a>}

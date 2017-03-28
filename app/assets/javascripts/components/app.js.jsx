@@ -6,11 +6,16 @@ var App = React.createClass({
       nav: this.props.nav,
       editing: null,
       lists: null,
-      pages: null,
+      listPages: null,
+      notebookPages: null,
       form: null,
       isModalOpen: false,
       modalContent: ""
     };
+  },
+
+  setlists: function(lists) {
+    this.setState({lists: lists});
   },
 
   toggleModal: function(modalContent = "") {
@@ -18,48 +23,47 @@ var App = React.createClass({
     this.setState({modalContent: modalContent});
   },
 
-  ajaxListsState: function(notebook, selectNotebook) {
+  getNotebookLists: function(notebook) {
+    nav = {...this.state.nav};
+    nav.notebook = notebook;
+    nav.list = null;
+    this.setState({nav: nav});
     $.ajax({
-      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id + '/lists',
-      success: (lists) => {
-        this.selectNotebook(lists, notebook);
+      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id ,
+      success: (data) => {
+        this.selectNotebook(data.lists, data.pages, notebook);
       }
     })
   },
 
-  ajaxPagesState: function(notebook, list, selectPage) {
+  getListPages: function(list) {
     $.ajax({
-      url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id + '/lists/' + list.id,
+      url: '/users/' + this.props.user.id + '/notebooks/' + list.notebook_id + '/lists/' + list.id,
       success: (pages) => {
         this.selectList(pages, list);
       }
     })
   },
 
-  ajaxNotebooksState: function(setNotebooks) {
+  getNotebooks: function() {
     $.ajax({
       url: '/users/' + this.props.user.id + '/notebooks',
       success: (notebooks) => {
-        console.log(notebooks);
         this.jumpToNotebooks(notebooks);
       }
     })
   },
 
-  setNotebooks: function(notebooks) {
-    this.setState({notebooks: notebooks});
-  },
-
-  selectNotebook: function(lists, notebook) {
+  selectNotebook: function(lists, pages, notebook) {
     nav = {...this.state.nav};
     nav.notebook = notebook;
-    this.setState({lists: lists, nav: nav});
+    this.setState({lists: lists, notebookPages: pages, nav: nav});
   },
 
   selectList: function(pages, list) {
     nav = {...this.state.nav};
     nav.list = list;
-    this.setState({pages: pages, nav: nav});
+    this.setState({listPages: pages, nav: nav});
   },
 
   selectPage: function(page)
@@ -80,87 +84,69 @@ var App = React.createClass({
     nav = {...this.state.nav};
     nav.notebook = notebook;
     nav.list = null;
-    this.setState({nav: nav});
-  },
-
-  jumpToList: function(notebook, list) {
-    nav = {...this.state.nav};
-    nav.notebook = notebook;
-    nav.list = list;
-    this.setState({nav: nav});
+    this.setState({nav: nav, notebook: notebook});
   },
 
   editNotebook: function(notebook, event) {
     event.stopPropagation();
-    this.setState({editing: notebook})
+    this.setState({editing: notebook});
     this.toggleModal("Edit Notebook");
   },
 
-  deleteNotebook: function(notebook, event) {
-
+  editList: function(list, event) {
     event.stopPropagation();
-    // event.stopImmediatePropagation();
+    this.setState({editing: list});
+    this.toggleModal("Edit List");
+  },
+
+  deleteNotebook: function(notebook, event) {
+    event.stopPropagation();
 
     $.ajax({
       type: "DELETE",
       url: '/users/' + this.props.user.id + '/notebooks/' + notebook.id,
       success: (notebooks) => {
-        console.log(notebooks);
-        this.setNotebooks(notebooks);
+        this.jumpToNotebooks(notebooks);
       }
     })
   },
 
-  exitForm: function() {
-    this.setState({form: null})
-  },
-
-  showNewNotebookForm: function() {
-    form = "notebook";
-    this.setState({form: form})
+  deleteList: function(list, event) {
+    event.stopPropagation();
+    $.ajax({
+      type: "DELETE",
+      url: '/users/' + this.props.user.id + '/notebooks/' + list.notebook_id + '/lists/' + list.id ,
+      success: (lists) => {
+        this.setState({lists: lists});
+      }
+    })
   },
 
   render: function() {
 
-    let navBar = null;
-    if (!this.state.nav.notebook) {
-      navBar = <NotebookNav 
-        notebooks={this.state.notebooks}
-        setNotebooks={this.setNotebooks}
-        selectNotebook={this.selectNotebook}
-        ajaxListsState={this.ajaxListsState}
-        deleteNotebook={this.deleteNotebook}
-        showNewNotebookForm={this.showNewNotebookForm}
-        toggleModal={this.toggleModal}
-        editNotebook={this.editNotebook}
-      />;
-    } else if (this.state.nav.notebook && !this.state.nav.list) {
-      navBar = <ListNav
-        notebook={this.state.nav.notebook}
-        lists={this.state.lists.lists}
-        ajaxPagesState={this.ajaxPagesState}
-        ajaxNotebooksState={this.ajaxNotebooksState}
-        jumpToNotebooks={this.jumpToNotebooks}
-        jumpToNotebook={this.jumpToNotebook}
-        setNotebooks={this.setNotebooks}
-      />
-    } else if (this.state.nav.notebook && this.state.nav.list) {
-      navBar = <PageNav
-        notebook={this.state.nav.notebook}
-        list={this.state.nav.list}
-        pages={this.state.pages.pages}
-        selectPage={this.selectPage}
-        jumpToNotebooks={this.jumpToNotebooks}
-        jumpToNotebook={this.jumpToNotebook}
-        jumpToList={this.jumpToList}
-        ajaxNotebooksState={this.ajaxNotebooksState}
-        setNotebooks={this.setNotebooks}
-      />
-    }
-
     return (
       <div style={{"height": "100%"}}>
-        {navBar}
+        <Nav
+          notebooks={this.state.notebooks}
+          notebook={this.state.nav.notebook}
+          lists={this.state.lists}
+          jumpToNotebooks={this.jumpToNotebooks}
+          selectNotebook={this.selectNotebook}
+          getNotebookLists={this.getNotebookLists}
+          deleteNotebook={this.deleteNotebook}
+          toggleModal={this.toggleModal}
+          editNotebook={this.editNotebook}
+          getListPages={this.getListPages}
+          getNotebooks={this.getNotebooks}
+          jumpToNotebooks={this.jumpToNotebooks}
+          list={this.state.nav.list}
+          listPages={this.state.listPages}
+          selectPage={this.selectPage}
+          nav={this.state.nav}
+          editList={this.editList}
+          getAllPages={this.getAllPages}
+          deleteList={this.deleteList}
+        />
         <Technique
           page={this.state.nav.page}
           form={this.state.form}
@@ -171,11 +157,13 @@ var App = React.createClass({
           toggleModal={this.toggleModal}
           modalContent={this.state.modalContent}
           user={this.props.user}
-          notebook={this.state.editing}
-          setNotebooks={this.setNotebooks}
-          selectNotebook={this.selectNotebook}
-          ajaxListsState={this.ajaxListsState}
+          notebook={this.state.nav.notebook}
+          jumpToNotebooks={this.jumpToNotebooks}
+          getNotebookLists={this.getNotebookLists}
+          getListPages={this.getListPages}
           editing={this.state.editing}
+          notebookPages={this.state.notebookPages}
+          setLists={this.setLists}
         >
         </Modal>
       </div>

@@ -3,9 +3,9 @@ var NotebookForm = React.createClass({
   submitNotebook: function(e) {
     e.preventDefault();
     let name = this.refs.name.value;
-    selectNotebook = this.props.selectNotebook;
     toggleModal = this.props.toggleModal;
-    setNotebooks = this.props.setNotebooks;
+    jumpToNotebooks = this.props.jumpToNotebooks;
+    getNotebookLists = this.props.getNotebookLists;
 
     if (this.props.modalContent == "Create Notebook") {
       $.ajax({
@@ -13,7 +13,7 @@ var NotebookForm = React.createClass({
         url: '/users/' + this.props.user.id + '/notebooks',
         data: {name: name}, 
         success: (notebook) => {
-          ajaxListsState(notebook.notebook, selectNotebook);
+          getNotebookLists(notebook);
           toggleModal();
         }
       });
@@ -23,7 +23,7 @@ var NotebookForm = React.createClass({
         url: '/users/' + this.props.user.id + '/notebooks/' + this.props.notebook.id,
         data: {name: name},
         success: (notebooks) => {
-          setNotebooks(notebooks);
+          jumpToNotebooks(notebooks);
           toggleModal();
         }
       });
