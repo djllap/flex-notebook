@@ -127,6 +127,7 @@ var App = React.createClass({
     return (
       <div style={{"height": "100%"}}>
         <Nav
+          style={{"overflow-y": "scroll"}}
           notebooks={this.state.notebooks}
           notebook={this.state.nav.notebook}
           lists={this.state.lists}
