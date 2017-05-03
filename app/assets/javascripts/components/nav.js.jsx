@@ -26,7 +26,7 @@ var Nav = React.createClass({
     } else if (this.props.nav.notebook && this.props.nav.list) {
       createButtons = <a className="btn btn-xs btn-raised"
                         style={{float: "right"}}
-                        onClick={() => this.props.toggleModal("Create Technique")}
+                        onClick={() => this.props.toggleModal("Create Page")}
                       >
                         New Technique
                       </a>;

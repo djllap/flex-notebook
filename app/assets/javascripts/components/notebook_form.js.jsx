@@ -36,7 +36,7 @@ var NotebookForm = React.createClass({
     if (this.props.modalContent == "Create Notebook") {
       submit = "Create Notebook";
     } else if (this.props.modalContent == "Edit Notebook") {
-      name = this.props.notebook.name;
+      let name = this.props.notebook.name;
       submit = "Update Notebook";
     }
     

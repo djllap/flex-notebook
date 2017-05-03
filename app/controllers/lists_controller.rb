@@ -49,10 +49,10 @@ class ListsController < ApplicationController
   def update
     @list = @notebook.lists.find(params[:id])
     if @list.update(list_params)
-      redirect_to notebook_list_path(@notebook, @list)
-    else
-      render :edit
-    end   
+      if request.xhr?
+        render :json => @list
+      end
+    end
   end
 end
 

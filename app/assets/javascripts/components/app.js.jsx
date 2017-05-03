@@ -8,6 +8,7 @@ var App = React.createClass({
       lists: null,
       listPages: null,
       notebookPages: null,
+      notebookLists: null,
       form: null,
       isModalOpen: false,
       modalContent: ""
@@ -57,7 +58,7 @@ var App = React.createClass({
   selectNotebook: function(lists, pages, notebook) {
     nav = {...this.state.nav};
     nav.notebook = notebook;
-    this.setState({lists: lists, notebookPages: pages, nav: nav});
+    this.setState({lists: lists, notebookLists: lists, notebookPages: pages, nav: nav});
   },
 
   selectList: function(pages, list) {
@@ -127,7 +128,6 @@ var App = React.createClass({
     return (
       <div style={{"height": "100%"}}>
         <Nav
-          style={{"overflow-y": "scroll"}}
           notebooks={this.state.notebooks}
           notebook={this.state.nav.notebook}
           lists={this.state.lists}
@@ -164,7 +164,9 @@ var App = React.createClass({
           getListPages={this.getListPages}
           editing={this.state.editing}
           notebookPages={this.state.notebookPages}
+          notebookLists={this.state.notebookLists}
           setLists={this.setLists}
+          selectPage={this.selectPage}
         >
         </Modal>
       </div>

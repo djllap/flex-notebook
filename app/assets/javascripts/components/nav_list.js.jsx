@@ -3,7 +3,7 @@ var NavList = React.createClass({
   render: function() {
     return(
       <ul className="nav nav-pills nav-stacked">
-        <div className="btn-group-vertical" style={{"width": "100%", "overflow-y": "scroll", "height": "50vh"}}>
+        <div className="btn-group-vertical" style={{"width": "100%", "overflowY": "scroll", "height": "50vh"}}>
           {this.props.listItems.map( function (item) {
             return (
               <li key={item.id}

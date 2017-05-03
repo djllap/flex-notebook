@@ -2,12 +2,13 @@ var ListForm = React.createClass({
 
   submitList: function(e) {
     e.preventDefault();
-    let name = this.refs.name.value;
+    let list = this.props.list;
+    let name = this.refs.listName.value;
     let page_ids = [...this.refs.page_ids].filter(option => option.selected).map(option => option.id);
     toggleModal = this.props.toggleModal;
     jumpToNotebooks = this.props.jumpToNotebooks;
     getNotebookLists = this.props.getNotebookLists;
-    console.log(page_ids);
+
     if (this.props.modalContent == "Create List") {
       $.ajax({
         type: "POST",
@@ -21,10 +22,10 @@ var ListForm = React.createClass({
     } else if (this.props.modalContent == "Edit List") {
       $.ajax({
         type: "PATCH",
-        url: '/users/' + this.props.user.id + '/notebooks/' + this.props.notebook.id,
-        data: {name: name},
-        success: (notebooks) => {
-          jumpToNotebooks(notebooks);
+        url: '/users/' + this.props.user.id + '/notebooks/' + this.props.notebook.id + '/lists/' + this.props.list.id,
+        data: {name: name, page_ids: page_ids},
+        success: (list) => {
+          this.props.getListPages(list);
           toggleModal();
         }
       });
@@ -36,10 +37,12 @@ var ListForm = React.createClass({
 
     if (this.props.modalContent == "Create List") {
       submit = "Create List";
+      defaultName = null;
     } else if (this.props.modalContent == "Edit List") {
-      name = this.props.notebook.name;
+      defaultName = this.props.list.name;
       submit = "Update List";
     }
+
 
     return (
       <form className="form-horizontal" onSubmit={this.submitList}>
@@ -49,9 +52,9 @@ var ListForm = React.createClass({
             <div className="col-sm-10">
               <input type="text" 
                 className="form-control"
-                defaultValue={name} 
+                defaultValue={defaultName} 
                 placeholder="List Name"
-                ref="name"
+                ref="listName"
               />
             </div>
           </div>
