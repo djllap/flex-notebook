@@ -6,23 +6,30 @@ before_action :set_notebook
     @page = @notebook.pages.find(params[:id])
     if @page.update(page_params)
       if request.xhr?
-        render :json => @page
+        render :json => {page: @page, list: params[:list]}
       end
     end
   end
 
   def destroy
     @page = @notebook.pages.find(params[:id])
-    @page.destroy
-    redirect_to notebook_pages_path(@notebook)
+
+    if @page.destroy
+      if request.xhr?
+        render :json => params[:list]
+      end
+    end
+
   end
 
   def create
     @page = @notebook.pages.new(page_params)
     @page.save
+    @list = @page.lists.first
+    @pages = @list.pages.all
 
     if request.xhr?
-      render :json => @page
+      render :json => {page: @page, pages: @pages, list: @list}
     end
   end
 end
@@ -35,5 +42,5 @@ private
   end
 
   def page_params
-    params.permit(:name, :content, :list_ids, :page => [])
+    params.permit(:name, :content, :list_ids => [])
   end

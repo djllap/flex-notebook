@@ -8,6 +8,7 @@ var ListForm = React.createClass({
     toggleModal = this.props.toggleModal;
     jumpToNotebooks = this.props.jumpToNotebooks;
     getNotebookLists = this.props.getNotebookLists;
+    console.log(page_ids);
 
     if (this.props.modalContent == "Create List") {
       $.ajax({
@@ -65,7 +66,7 @@ var ListForm = React.createClass({
               <select id="selectPages" multiple className="form-control" ref="page_ids">
                 {this.props.notebookPages.map( function (page) {
                   return (
-                    <option key={page.id} id={page.id}>
+                    <option key={page.id} id={page.id>}
                       {page.name}
                     </option>
                   );

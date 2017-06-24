@@ -67,12 +67,25 @@ var App = React.createClass({
     this.setState({listPages: pages, nav: nav});
   },
 
-  selectPage: function(page)
- {
+  selectPage: function(page) {
   nav = {...this.state.nav};
   nav.page = page;
   this.setState({nav: nav});
- },
+  },
+
+  deletePage: function(page, event) {
+    event.stopPropagation();
+
+    $.ajax({
+      type: "DELETE",
+      url: '/users/' + this.props.user.id + '/notebooks/' + page.notebook_id + '/pages/' + page.id ,
+      data: {list: this.state.nav.list},
+      success: (list) => {
+        this.getListPages(list);
+        
+      }
+    })
+  },
 
  jumpToNotebooks: function(notebooks) {
     nav = {...this.state.nav};
@@ -98,6 +111,12 @@ var App = React.createClass({
     event.stopPropagation();
     this.setState({editing: list});
     this.toggleModal("Edit List");
+  },
+
+  editPage: function(page, event) {
+    event.stopPropagation();
+    this.setState({editing: page});
+    this.toggleModal("Edit Page");
   },
 
   deleteNotebook: function(notebook, event) {
@@ -147,6 +166,8 @@ var App = React.createClass({
           editList={this.editList}
           getAllPages={this.getAllPages}
           deleteList={this.deleteList}
+          deletePage={this.deletePage}
+          editPage={this.editPage}
         />
         <Technique
           page={this.state.nav.page}
@@ -167,6 +188,9 @@ var App = React.createClass({
           notebookLists={this.state.notebookLists}
           setLists={this.setLists}
           selectPage={this.selectPage}
+          nav={this.state.nav}
+          selectList={this.selectList}
+          list={this.state.nav.list}
         >
         </Modal>
       </div>

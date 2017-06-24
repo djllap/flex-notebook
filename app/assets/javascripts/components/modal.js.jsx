@@ -67,8 +67,27 @@ var Modal = React.createClass({
           getListPages={this.props.getListPages}
           selectPage={this.props.selectPage}
           notebookPages={this.props.notebookPages}
+          nav={this.props.nav}
+          selectList={this.props.selectList}
         />;
       modalTitle = "Create Technique";
+    } else if (this.props.modalContent == "Edit Page") {
+      modalContent = 
+        <PageForm
+          toggleModal={this.props.toggleModal}
+          user={this.props.user}
+          page={this.props.editing}
+          notebookLists={this.props.notebookLists}
+          modalContent={this.props.modalContent}
+          notebook={this.props.notebook}
+          getListPages={this.props.getListPages}
+          selectPage={this.props.selectPage}
+          notebookPages={this.props.notebookPages}
+          nav={this.props.nav}
+          selectList={this.props.selectList}
+          list={this.props.list}
+        />;
+      modalTitle = "Editing Page";
     }
 
     return (
